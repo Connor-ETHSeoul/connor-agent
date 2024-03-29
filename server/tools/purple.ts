@@ -9,9 +9,9 @@ dotenv.config({ path: '../.env' });
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 const promptTemplate = PromptTemplate.fromTemplate(
-  `You will be given {policy}, and {modified_input}. 
-  You check whether the policy aligns in the modified codes.
-  Give the feedback about the policy aligns in the modified codes or not.`
+  `You will be given {policy}, and {code}. 
+  You check whether the policy aligns with the code.
+  Give the feedback about the policy aligns with the code or not.`
 );
 
 const model = new ChatOpenAI({
@@ -26,7 +26,7 @@ async function runPurple(policy:string): Promise<string> {
     try {
         const currenvt = getCurrentVersion();
         const fileData = await readContract(currenvt);
-        const result = await chain.invoke({ modified_input: fileData, policy: policy}); // 읽은 데이터를 사용
+        const result = await chain.invoke({ code: fileData, policy: policy}); // 읽은 데이터를 사용
         
         console.log(result);
 

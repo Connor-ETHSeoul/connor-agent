@@ -45,7 +45,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 // Initialize the model
 const model = new ChatOpenAI({
     openAIApiKey: OPENAI_API_KEY,
-    modelName: "gpt-4", //use gpt-4 model
+    modelName: "gpt-4-32k", //use gpt-4 model
     temperature: 0
   }); 
 
@@ -71,11 +71,22 @@ const executor = AgentExecutor.fromAgentAndTools({
   tools,
 });
 
-const contractCode = readContract("1.0.0");
+// executor.invoke 함수를 호출하는 부분을 async 함수로 감싸기
+async function executeContract() {
+  // await를 사용하여 readContract의 결과를 기다린 후 contractCode에 할당
+  const contractCode = await readContract("1.0.0");
 
-executor.invoke({ input: "You cannot stab the elderly", chat_history: chatHistory }).then((result) => {
-  console.log(result);
+  // 이제 contractCode를 string으로 사용할 수 있음
+  executor.invoke({ input: `You cannot stab the elderly, Code is ${contractCode}`, chat_history: chatHistory })
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((error) => {
+      // 오류 처리
+      console.error("Error executing contract:", error);
+    });
 }
-);
 
+// 함수 실행
+executeContract();
 
