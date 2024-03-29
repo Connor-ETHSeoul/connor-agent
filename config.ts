@@ -1,0 +1,5 @@
+const PROXY_ADDRESS = "0x3227962292F1d1E50BCdd4e27680892D6c981072";
+
+const DAO_POLICY = "Do not attack the elderly."
+
+export {PROXY_ADDRESS, DAO_POLICY}; 
