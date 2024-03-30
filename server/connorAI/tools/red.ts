@@ -1,7 +1,7 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
-import {readContract} from '../utils'
-import {getCurrentVersion} from '../version'
+import {readContract} from '../../utils'
+import {getCurrentVersion} from '../../version'
 
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
@@ -38,6 +38,7 @@ const chain = promptTemplate.pipe(model);
 async function runRed(): Promise<string> {
     try {
         console.log("Agent Red is checking the contract for security risks \n")
+        
         const currentVersion = getCurrentVersion();
         const fileData = await readContract(currentVersion);
       

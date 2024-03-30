@@ -1,9 +1,10 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { writeFile } from 'fs/promises';
-import {readContract, upgradeProxyContract} from '../utils'
-import {PROXY_ADDRESS, DAO_POLICY} from '../../config'
-import {getCurrentVersion, incrementMinorVersion} from '../version'
+import {readContract} from '../../utils'
+import {getCurrentVersion, incrementMinorVersion} from '../../version'
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
@@ -37,15 +38,13 @@ const chain = promptTemplate.pipe(model);
 
 async function writeSC(newPolicy:string): Promise<string> {
     try {
-        console.log("Agent Blue is writing new contract \n")
         const currenvt = getCurrentVersion();
         const fileData = await readContract(currenvt);
 
         const result = await chain.invoke({ originalFile: fileData, policy: newPolicy}); // 읽은 데이터를 사용
         const newSC = result.content as string;
 
-        console.log("Agent Blue's new smart contract code: \n")
-        console.log(newSC + "\n");
+
 
         return newSC;
 
@@ -56,7 +55,29 @@ async function writeSC(newPolicy:string): Promise<string> {
 }
 
 async function runBlue(newPolicy: string): Promise<string> {
+    console.log("Agent Blue is writing new contract \n")
+
     const newSC :string = await writeSC(newPolicy);
+
+    console.log("Agent Blue's new smart contract code: \n")
+    console.log(newSC + "\n");
+
+    await prisma.agent_output.create({
+      data: {
+          proposalId: 0,
+          color: "black",
+          text: "Agent Blue is writing the new contract... \n "
+      }
+  });
+
+    await prisma.agent_output.create({
+      data: {
+          proposalId: 0,
+          color: "blue",
+          text: " Agent Blue's new smart contract code: \n" + newSC
+      }
+  });
+
     incrementMinorVersion();
     const curvt = getCurrentVersion();
     const filePath = `../contracts/Game/ImplementationV${curvt}.sol`;

@@ -5,8 +5,8 @@ import {runRed}  from "./red";
 import {deploySC}  from "./deploySC";
 import { DynamicStructuredTool } from "@langchain/core/tools";
 import { z } from "zod";
-import {readContract} from '../utils'
-import {getCurrentVersion} from '../version'
+import {readContract} from '../../utils'
+import {getCurrentVersion} from '../../version'
 
 const runBlueTool = new DynamicStructuredTool({
     name: "runBlue",

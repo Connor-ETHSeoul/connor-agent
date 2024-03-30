@@ -5,6 +5,11 @@
       "address": "0xdf9bf7F4Be89647c60Ac8BbAac834285Bf76DC6f",
       "txHash": "0x2634743475eee34f60e86f4e506b7fdeb50167cb4264b78d016f6247d097ee66",
       "kind": "uups"
+    },
+    {
+      "address": "0xfd9a4cc921F935b10b25A7A2C0711E24B22780B1",
+      "txHash": "0xff8b98b8ef84c1dc983b89b46dec65313991891085e0ea3794ef1ba2cec58a1e",
+      "kind": "uups"
     }
   ],
   "impls": {
@@ -85,6 +90,118 @@
             "slot": "202",
             "type": "t_contract(DataBase)1326",
             "contract": "ImplementationV1",
+            "src": "contracts/Game/ImplementationV1.0.0.sol:28"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(DataBase)1326": {
+            "label": "contract DataBase",
+            "numberOfBytes": "20"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "61cc1f1f71229df85bb3b8e29e74667766d571d0110a64fff85d7d41390adb97": {
+      "address": "0x64dcD3bD8fefAeCE1a1a9E803203547312fc5260",
+      "txHash": "0x6fd2c3aecc14eba00d13d0b8651e7e628688982951f27d9192c5f28774b715aa",
+      "layout": {
+        "solcVersion": "0.8.17",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC1967UpgradeUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol:169"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "UUPSUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol:111"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:40"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "dataBaseAddress",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_address",
+            "contract": "ImplementationV_1_0_0",
+            "src": "contracts/Game/ImplementationV1.0.0.sol:27"
+          },
+          {
+            "label": "dataBaseContract",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_contract(DataBase)1326",
+            "contract": "ImplementationV_1_0_0",
             "src": "contracts/Game/ImplementationV1.0.0.sol:28"
           }
         ],

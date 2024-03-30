@@ -1,11 +1,14 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
-import {readContract} from '../utils'
+import {readContract} from '../../utils'
 import { writeFile } from 'fs/promises';
-import {getCurrentVersion, incrementPatchVersion} from '../version'
+import {getCurrentVersion, incrementPatchVersion} from '../../version'
 
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
+
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
@@ -37,7 +40,6 @@ const chain = promptTemplate.pipe(model);
 
 async function refineSC(feedback:string): Promise<string> {
     try {
-        console.log("Agent Green is refining the contract \n")
         const currenvt = getCurrentVersion();
         const fileData = await readContract(currenvt);
 
@@ -45,8 +47,7 @@ async function refineSC(feedback:string): Promise<string> {
         
         const newCode = result.content as string;
 
-        console.log("Agent Green's refined code: \n")
-        console.log(newCode);
+
 
         return newCode;
 
@@ -57,7 +58,30 @@ async function refineSC(feedback:string): Promise<string> {
 }
 
 async function runGreen(newPolicy: string): Promise<string> {
+    console.log("Agent Green is refining the contract... \n")
+
     const newSC :string = await refineSC(newPolicy);
+
+    console.log("Agent Green's refined code: \n")
+    console.log(newSC);
+
+    await prisma.agent_output.create({
+        data: {
+            proposalId : 0,
+            color : "black",
+            text: "Agent Green is refining the contract \n"
+        }
+    });
+
+    await prisma.agent_output.create({
+        data: {
+            proposalId : 0,
+            color : "green",
+            text: "Agent Green's refined code: \n" + newSC
+        }
+    });
+
+
     incrementPatchVersion();
     const curvt = getCurrentVersion();
     const filePath = `../contracts/Game/ImplementationV${curvt}.sol`;
