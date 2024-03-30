@@ -14,6 +14,19 @@ import { runBlueTool, runGreenTool, runRedTool, runPurpleTool, deploySCTool, rea
 
 import * as dotenv from 'dotenv';
 import { PrismaClient } from '../../prisma/generated/client';
+import {ethers} from 'ethers'
+
+const SEPOLIA_WEBSOCKET_URL = process.env.SEPOLIA_WEBSOCKET_URL 
+const DAO_CONTRACT_ADDRESS = process.env.DAO_CONTRACT_ADDRESS
+
+const provider = new ethers.providers.WebSocketProvider(SEPOLIA_WEBSOCKET_URL!);
+const contractABI = [
+    "event PolicyListed(string policy)",
+    "function vote (uint policyId, Vote voting) public"
+];
+const contractAddress = DAO_CONTRACT_ADDRESS!;
+
+const contract = new ethers.Contract(contractAddress, contractABI, provider);
 const prisma = new PrismaClient();
 
 dotenv.config({ path: '../.env' });
@@ -76,11 +89,11 @@ const executor = AgentExecutor.fromAgentAndTools({
 });
 
 // executor.invoke 함수를 호출하는 부분을 async 함수로 감싸기
-async function executeContract() {
+async function executeContract(policy: string) {
   try {
     // await를 사용하여 readContract의 결과를 기다린 후 contractCode에 할당
     // 예시에서는 executor.invoke가 비동기 호출을 나타내는 것으로 가정합니다.
-    const result = await executor.invoke({ input: `New policy: You cannot stab the elderly`, chat_history: chatHistory });
+    const result = await executor.invoke({ input: `New policy: ${policy}`, chat_history: chatHistory });
     console.log(result);
     
     // 다음 비동기 호출에서도 await를 사용하여 결과를 기다림
@@ -97,5 +110,20 @@ async function executeContract() {
   }
 }
 
-// 함수 실행
-executeContract();
+
+async function main() {
+  contract.on('PolicyListed', async (policy: string) => {
+      try {
+          await executeContract(policy);;
+      } catch (error) {
+          console.error("Error in event handler:", error);
+          throw error; // 에러를 다시 발생시켜 main의 catch 블록에서 처리할 수 있도록 함
+      }
+  });
+}
+
+main().then(() => {
+  console.log("Event listening operation completed");
+}).catch((error) => {
+  console.error("An error occurred during event listening:", error);
+});
