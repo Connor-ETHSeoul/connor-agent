@@ -45,7 +45,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 // Initialize the model
 const model = new ChatOpenAI({
     openAIApiKey: OPENAI_API_KEY,
-    modelName: "gpt-4-32k", //use gpt-4 model
+    modelName: "gpt-4", //use gpt-4 model
     temperature: 0
   }); 
 
