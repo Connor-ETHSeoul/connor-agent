@@ -45,7 +45,7 @@ async function runRed(): Promise<string> {
         const feedback = result.content as string;
 
         console.log("Agent Red's feedback on security: \n")
-        console.log(feedback);
+        console.log(feedback + "\n");
         return feedback;
 
     } catch (error) {
