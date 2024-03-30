@@ -19,11 +19,11 @@ model Agent_output {
   id         Int      @id @default(autoincrement())
   proposalId Int
   color      String
-  text       String
+  text       String @db.Text
 }
 
 model Smart_contract {
   id      Int      @id @default(autoincrement())
   version String 
-  code    String
+  code    String @db.Text
 }

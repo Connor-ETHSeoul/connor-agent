@@ -139,7 +139,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../..",
@@ -149,7 +149,6 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -158,8 +157,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n\nmodel Agent_output {\n  id         Int      @id @default(autoincrement())\n  proposalId Int\n  color      String\n  text       String\n}\n\nmodel Smart_contract {\n  id      Int      @id @default(autoincrement())\n  version String \n  code    String\n}",
-  "inlineSchemaHash": "f2c758ba32f0d3b3787940f5f413f6ff9b1ea8bad7fb6de55a9053bde016037a",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n\nmodel Agent_output {\n  id         Int      @id @default(autoincrement())\n  proposalId Int\n  color      String\n  text       String @db.Text\n}\n\nmodel Smart_contract {\n  id      Int      @id @default(autoincrement())\n  version String \n  code    String @db.Text\n}",
+  "inlineSchemaHash": "dcd9d5c38dd034015ddc2fb55b7163c6bae59af56945e54c12da49dfb59c431f",
   "copyEngine": true
 }
 
