@@ -86,6 +86,14 @@ async function runGreen(newPolicy: string): Promise<string> {
     const curvt = getCurrentVersion();
     const filePath = `../contracts/Game/ImplementationV${curvt}.sol`;
     await writeFile(filePath, newSC);
+    
+    await prisma.smart_contract.create({
+        data: {
+            version: curvt,
+            code: newSC
+        }
+    });
+
     return newSC;
 }
   

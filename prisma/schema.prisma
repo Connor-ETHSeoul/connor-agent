@@ -21,7 +21,7 @@ model Agent_output {
   text       String
 }
 
-model Sc {
+model SmartContract {
   version String
   code    String
 }
