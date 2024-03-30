@@ -58,3 +58,5 @@ const runBlueTool = new DynamicStructuredTool({
     func: async () => deploySC()
     }
   );
+
+  export {runBlueTool, runPurpleTool, runRedTool, runGreenTool, deploySCTool};

@@ -40,7 +40,7 @@ async function writeSC(newPolicy:string): Promise<string> {
         const fileData = await readContract(currenvt);
         console.log("읽은 파일의 내용:", fileData);
 
-        const result = await chain.invoke({ originalFile: fileData, policy: DAO_POLICY}); // 읽은 데이터를 사용
+        const result = await chain.invoke({ originalFile: fileData, policy: newPolicy}); // 읽은 데이터를 사용
         
         console.log(result);
 
