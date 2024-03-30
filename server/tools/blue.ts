@@ -36,15 +36,16 @@ const chain = promptTemplate.pipe(model);
 
 async function writeSC(newPolicy:string): Promise<string> {
     try {
+        console.log("Agent Blue is writing new contract \n")
         const currenvt = getCurrentVersion();
         const fileData = await readContract(currenvt);
-        console.log("읽은 파일의 내용:", fileData);
 
         const result = await chain.invoke({ originalFile: fileData, policy: newPolicy}); // 읽은 데이터를 사용
-        
+        const newSC = result.content as string;
+
+        console.log("Agent Blue's new smart contract code: \n")
         console.log(result);
 
-        const newSC = result.content as string;
         return newSC;
 
     } catch (error) {

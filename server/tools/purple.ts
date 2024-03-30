@@ -24,13 +24,16 @@ const chain = promptTemplate.pipe(model);
 
 async function runPurple(policy:string): Promise<string> {
     try {
+        console.log("Agent Purple is checking the contract, policy alignment \n")
         const currenvt = getCurrentVersion();
         const fileData = await readContract(currenvt);
         const result = await chain.invoke({ code: fileData, policy: policy}); // 읽은 데이터를 사용
         
-        console.log(result);
+        const feedback = result.content as string;
 
-        const feedback = result.content as string; // RED or BLUE
+        console.log("Agent Purple feedback on code <> policy alignment: \n")
+        console.log(feedback);
+
         return feedback;
 
     } catch (error) {

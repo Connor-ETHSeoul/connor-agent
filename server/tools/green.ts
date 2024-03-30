@@ -35,15 +35,17 @@ const chain = promptTemplate.pipe(model);
 
 async function refineSC(feedback:string): Promise<string> {
     try {
+        console.log("Agent Green is refining the contract \n")
         const currenvt = getCurrentVersion();
         const fileData = await readContract(currenvt);
-        console.log("읽은 파일의 내용:", fileData);
 
         const result = await chain.invoke({ originalFile: fileData, feedback: feedback}); // 읽은 데이터를 사용
         
-        console.log(result);
-
         const newCode = result.content as string;
+
+        console.log("Agent Green's refined code: \n")
+        console.log(newCode);
+
         return newCode;
 
     } catch (error) {
