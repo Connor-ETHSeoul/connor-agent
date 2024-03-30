@@ -3,42 +3,58 @@ import {runGreen}  from "./green";
 import {runPurple}  from "./purple";
 import {runRed}  from "./red";
 import {deploySC}  from "./deploySC";
-import { DynamicTool } from "@langchain/core/tools";
+import { DynamicStructuredTool } from "@langchain/core/tools";
+import { z } from "zod";
 
 
-const runBlueTool = new DynamicTool({
+const runBlueTool = new DynamicStructuredTool({
     name: "runBlue",
     description: "Get the new smart contract code from Agent Blue according to the new DAO policy",
-    func: runBlue,
+    schema: z.object({
+      daoPolicy: z.string().describe("Policy from DAO")
+    }),
+    func: async ({daoPolicy}) => runBlue(daoPolicy)
     }
   );
   
-  const runPurpleTool = new DynamicTool({
+  const runPurpleTool = new DynamicStructuredTool({
     name: "runPurple",
     description: "Get feedback from Agent Purple on the new smart contract code if it meets the new DAO policy",
-    func: runPurple,
+    schema: z.object({
+      daoPolicy: z.string().describe("Policy from DAO"),
+    }),
+    func: async ({daoPolicy}) => runPurple(daoPolicy)
     }
   );
   
-  const runRedTool = new DynamicTool({
+  const runRedTool = new DynamicStructuredTool({
     name: "runRed",
     description: "Get feedback from Agent Red on the new smart contract code if it has any security risks",
-    func: runRed,
+    schema: z.object({
+      daoPolicy: z.string().describe("Policy from DAO"),
+      modCode: z.string().describe("Source solidity smart contract code")
+    }),    
+    func: async () => runRed()
     }
   );
   
-  const runGreenTool = new DynamicTool({
+  const runGreenTool = new DynamicStructuredTool({
     name: "runGreen",
     description: "Refine the smart contract code if it does not meet the new DAO policy or has security risks",
-    func: runGreen,
+    schema: z.object({
+      daoPolicy: z.string().describe("Policy from DAO"),
+    }),
+    func: async ({daoPolicy}) => runGreen(daoPolicy)
     }
   );
   
-  const deploySCTool = new DynamicTool({
+  const deploySCTool = new DynamicStructuredTool({
     name: "deploySC",
     description: "Deploy the new smart contract",
-    func: deploySC,
+    schema: z.object({
+      daoPolicy: z.string().describe("Policy from DAO"),
+      modCode: z.string().describe("Source solidity smart contract code")
+    }),
+    func: async () => deploySC()
     }
   );
-
-  export {runBlueTool, runGreenTool, runPurpleTool, runRedTool, deploySCTool}
