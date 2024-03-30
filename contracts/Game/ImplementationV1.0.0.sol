@@ -8,8 +8,8 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 interface DataBase {
     enum CharacterType {
         Warrior, //0
-        Monster1, //1
-        Monster2, //2
+        Devil, //1
+        Zombie, //2
         Elderly //3
     }
 
@@ -40,7 +40,7 @@ contract ImplementationV_1_0_0 is Initializable, UUPSUpgradeable, OwnableUpgrade
         Character memory defender = getCharacter(_defenderIndex);
         require(
             defender.characterType != DataBase.CharacterType.Elderly,
-            "Cannot attack a Elderly!"
+            "Cannot stab a Elderly!"
         );
         _;
     }

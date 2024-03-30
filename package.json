@@ -18,6 +18,7 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.19.1",
     "@openzeppelin/contracts": "^4.8.2",
     "@prisma/client": "5.11.0",
     "langchain": "^0.1.30"

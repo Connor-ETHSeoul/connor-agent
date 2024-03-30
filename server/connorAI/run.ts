@@ -98,5 +98,5 @@ async function run(policy: string) {
 }
 
 // 함수 실행
-run("You cannot attack the elderly");
+// run("You cannot attack the elderly");
 export {run}

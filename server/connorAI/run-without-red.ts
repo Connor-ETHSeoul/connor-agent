@@ -93,6 +93,6 @@ async function runWithoutRed(policy: string) {
 }
 
 // 함수 실행
-// executeContract("You cannot attack the elderly");
+// runWithoutRed("You cannot swing the devil");
 
 export {runWithoutRed}
