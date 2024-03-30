@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import {getCurrentVersion} from '../version'
+import {getCurrentVersion} from '../../version'
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });
 

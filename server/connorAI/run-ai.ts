@@ -10,10 +10,10 @@ import {
 } from "@langchain/core/prompts";
 import {BaseMessage } from "@langchain/core/messages";
 
-import { runBlueTool, runGreenTool, runRedTool, runPurpleTool, deploySCTool, readContractTool } from "./tools";
+import { runBlueTool, runGreenTool, runRedTool, runPurpleTool, deploySCTool, readContractTool } from "../tools";
 
 import * as dotenv from 'dotenv';
-import { readContract } from "./utils";
+import { readContract } from "../utils";
 
 dotenv.config({ path: '../.env' });
 

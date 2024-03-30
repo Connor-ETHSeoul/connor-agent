@@ -1,7 +1,7 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
-import {readContract, upgradeProxyContract} from '../utils'
-import {getCurrentVersion} from '../version'
+import {readContract, upgradeProxyContract} from '../../utils'
+import {getCurrentVersion} from '../../version'
 
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
