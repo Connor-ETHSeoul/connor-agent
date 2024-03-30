@@ -1,18 +1,29 @@
-import { writeFile, readFile } from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 import { exec } from 'child_process';
-import { PrismaClient } from '../prisma/generated/client';
-const prisma = new PrismaClient();
-
+import * as path from 'path';
 
 async function readContract(version:string) {
     try {
-        const data = await readFile(`../contracts/Game/ImplementationV${version}.sol`, 'utf8');
+        const filePath = path.join(__dirname, '../', 'contracts', 'Game', `ImplementationV${version}.sol`);
+        const data = await readFile(filePath, 'utf8');
         return data; // 데이터 반환
     } catch (error) {
         console.error('Error while reading file', error);
         throw error; // 에러를 다시 던져서 외부에서 처리할 수 있게 함
     }
 }
+
+async function writeContract(version:string, code:string) {
+    try {
+        const filePath = path.join(__dirname, '../', 'contracts', 'Game', `ImplementationV${version}.sol`);
+        await writeFile(filePath, code);
+    }
+    catch (error) {
+        console.error('Error while writing file', error);
+        throw error;
+    }
+}
+
   
 function upgradeProxyContract(proxyAddress:string, toVersion: string) {
   exec(`cd .. && yes | PROXY_ADDRESS=${proxyAddress} UPGRADE_TO_VERSION=${toVersion} npx hardhat run scripts/upgradeProxy.ts --network sepolia`, (error, stdout, stderr) => {
@@ -25,4 +36,4 @@ function upgradeProxyContract(proxyAddress:string, toVersion: string) {
 }
 
 
-export { readContract, upgradeProxyContract };
+export { readContract, writeContract, upgradeProxyContract };
