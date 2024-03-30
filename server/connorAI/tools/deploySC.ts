@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 import {getCurrentVersion} from '../../version'
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../../prisma/generated/client';
 const prisma = new PrismaClient();
 
 const proxyAddress = process.env.PROXY_ADDRESS || "0xdf9bf7F4Be89647c60Ac8BbAac834285Bf76DC6f";

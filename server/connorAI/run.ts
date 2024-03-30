@@ -13,6 +13,8 @@ import {BaseMessage } from "@langchain/core/messages";
 import { runBlueTool, runGreenTool, runRedTool, runPurpleTool, deploySCTool, readContractTool } from "./tools";
 
 import * as dotenv from 'dotenv';
+import { PrismaClient } from '../../prisma/generated/client';
+const prisma = new PrismaClient();
 
 dotenv.config({ path: '../.env' });
 
@@ -75,16 +77,24 @@ const executor = AgentExecutor.fromAgentAndTools({
 
 // executor.invoke 함수를 호출하는 부분을 async 함수로 감싸기
 async function executeContract() {
-  // await를 사용하여 readContract의 결과를 기다린 후 contractCode에 할당
-  // 이제 contractCode를 string으로 사용할 수 있음
-  executor.invoke({ input: `New policy: You cannot stab the elderly`, chat_history: chatHistory })
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((error) => {
-      // 오류 처리
-      console.error("Error executing contract:", error);
+  try {
+    // await를 사용하여 readContract의 결과를 기다린 후 contractCode에 할당
+    // 예시에서는 executor.invoke가 비동기 호출을 나타내는 것으로 가정합니다.
+    const result = await executor.invoke({ input: `New policy: You cannot stab the elderly`, chat_history: chatHistory });
+    console.log(result);
+    
+    // 다음 비동기 호출에서도 await를 사용하여 결과를 기다림
+    await prisma.agent_output.create({
+      data: {
+          proposalId: 0,
+          color: "black",
+          text: result.content
+      }
     });
+  } catch (error) {
+    // 오류 처리
+    console.error("Error executing contract:", error);
+  }
 }
 
 // 함수 실행
