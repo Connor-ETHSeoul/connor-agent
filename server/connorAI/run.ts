@@ -76,11 +76,11 @@ const executor = AgentExecutor.fromAgentAndTools({
 });
 
 // executor.invoke 함수를 호출하는 부분을 async 함수로 감싸기
-async function executeContract() {
+async function run(policy: string) {
   try {
     // await를 사용하여 readContract의 결과를 기다린 후 contractCode에 할당
     // 예시에서는 executor.invoke가 비동기 호출을 나타내는 것으로 가정합니다.
-    const result = await executor.invoke({ input: `New policy: You cannot stab the elderly`, chat_history: chatHistory });
+    const result = await executor.invoke({ input: `New policy: ${policy}`, chat_history: chatHistory });
     console.log(result);
     
     // 다음 비동기 호출에서도 await를 사용하여 결과를 기다림
@@ -98,4 +98,5 @@ async function executeContract() {
 }
 
 // 함수 실행
-executeContract();
+// executeContract("You cannot attack the elderly");
+export {run}

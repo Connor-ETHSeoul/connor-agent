@@ -80,7 +80,7 @@ async function runBlue(newPolicy: string): Promise<string> {
     incrementMinorVersion();
     const curvt = getCurrentVersion();
     await writeContract(curvt, newSC);
-
+  
     await prisma.smart_contract.create({
       data: {
           version: curvt,
