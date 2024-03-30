@@ -1,67 +1,69 @@
-import { ChatOpenAI } from "@langchain/openai";
-import { PromptTemplate } from "@langchain/core/prompts";
-import {readContract} from './utils'
-import {getCurrentVersion} from '../../version'
-import { PrismaClient } from '../../../prisma/generated/client';
+import { Anthropic } from "@anthropic-ai/sdk";
+import { readContract } from "./utils";
+import { getCurrentVersion } from "../../version";
+import { PrismaClient } from "../../../prisma/generated/client";
 
+require('dotenv').config({ path: "../../../.env" });
 
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '../.env' });
 
 const prisma = new PrismaClient();
+const CLAUDEAI_API_KEY = process.env.CLAUDEAI_API_KEY;
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-
-const promptTemplate = PromptTemplate.fromTemplate(
-  `You will be given {policy}, and {code}. 
-  You check whether the policy aligns with the solidity code.
-  Give the feedback about the policy aligns with the solidity code or not.`
-);
-
-const model = new ChatOpenAI({
-  openAIApiKey: OPENAI_API_KEY,
-  modelName: "gpt-4", //use gpt-4 model
-  temperature: 0
+const anthropic = new Anthropic({
+  apiKey: CLAUDEAI_API_KEY,
 });
 
-const chain = promptTemplate.pipe(model);
+function createPromptTemplate(modFile: string, policy: string): string {
+  // Define the structure of your prompt
+  const template = `You will be given ${policy}, and ${modFile}. 
+  You check whether the policy aligns with the solidity code.
+  Give the feedback about the policy aligns with the solidity code or not.`;
 
-async function runPurple(policy:string): Promise<string> {
-    try {
-        console.log("Agent Purple is checking the contract & policy alignment \n")
-        
-        const currenvt = getCurrentVersion();
-        const fileData = await readContract(currenvt);
-        const result = await chain.invoke({ code: fileData, policy: policy}); // 읽은 데이터를 사용
-        
-        const feedback = result.content as string;
-
-        await prisma.agent_output.create({
-            data: {
-                proposalId: 0,
-                color: "black",
-                text: "Agent Purple is checking the contract & policy alignment... \n"
-            }
-        });
-
-
-        await prisma.agent_output.create({
-          data: {
-              proposalId: 0,
-              color: "purple",
-              text: "Agent Purple's feedback on contract & policy alignment: \n" + feedback 
-          }
-      });
-
-        console.log("Agent Purple's feedback on contract & policy alignment: \n")
-        console.log(feedback + "\n");
-
-        return feedback;
-
-    } catch (error) {
-        console.error("An error occurred:", error);
-        return "";
-    }
+  return template;
 }
 
-export { runPurple }
+async function runPurple(newPolicy: string): Promise<string> {
+  try {
+    console.log("Agent Purple is checking the contract & policy alignment \n");
+    const currenvt = getCurrentVersion();
+    const fileData = await readContract(currenvt);
+
+    const prompt = createPromptTemplate(fileData, newPolicy);
+
+    const result = await anthropic.messages.create({
+      model: "claude-3-opus-20240229",
+      max_tokens: 1024,
+      messages: [{ role: "user", content: prompt }],
+    });
+
+    const feedback = result["content"][0]["text"];
+
+    await prisma.agent_output.create({
+      data: {
+        proposalId: 0,
+        color: "black",
+        text: "Agent Purple is checking the contract & policy alignment... \n",
+      },
+    });
+
+    await prisma.agent_output.create({
+      data: {
+        proposalId: 0,
+        color: "purple",
+        text:
+          "Agent Purple's feedback on contract & policy alignment: \n" +
+          feedback,
+      },
+    });
+
+    console.log("Agent Purple's feedback on contract & policy alignment: \n");
+    console.log(feedback + "\n");
+
+    return feedback;
+  } catch (error) {
+    console.error("An error occured:", error);
+    return "";
+  }
+}
+
+export { runPurple };
