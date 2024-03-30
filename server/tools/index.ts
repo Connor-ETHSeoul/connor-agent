@@ -5,7 +5,8 @@ import {runRed}  from "./red";
 import {deploySC}  from "./deploySC";
 import { DynamicStructuredTool } from "@langchain/core/tools";
 import { z } from "zod";
-
+import {readContract} from '../utils'
+import {getCurrentVersion} from '../version'
 
 const runBlueTool = new DynamicStructuredTool({
     name: "runBlue",
@@ -47,6 +48,14 @@ const runBlueTool = new DynamicStructuredTool({
     func: async ({daoPolicy}) => runGreen(daoPolicy)
     }
   );
+
+  const readContractTool = new DynamicStructuredTool({
+    name: "readContract",
+    description: "Read the current version smart contract code",
+    schema: z.object({}),
+    func: async () => readContract(getCurrentVersion())
+    }
+  );
   
   const deploySCTool = new DynamicStructuredTool({
     name: "deploySC",
@@ -59,4 +68,4 @@ const runBlueTool = new DynamicStructuredTool({
     }
   );
 
-  export {runBlueTool, runPurpleTool, runRedTool, runGreenTool, deploySCTool};
+  export {runBlueTool, runPurpleTool, runRedTool, runGreenTool, deploySCTool, readContractTool};

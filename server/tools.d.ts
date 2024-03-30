@@ -1,1 +1,1 @@
-export {runBlueTool, runGreenTool, runPurpleTool, runRedTool, deploySCTool} from "./tools/index";
+export {runBlueTool, runGreenTool, runPurpleTool, runRedTool, deploySCTool, readContractTool} from "./tools/index";

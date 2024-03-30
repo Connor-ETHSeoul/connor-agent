@@ -8,9 +8,9 @@ import {
   ChatPromptTemplate,
   MessagesPlaceholder,
 } from "@langchain/core/prompts";
-import { AIMessage, BaseMessage, HumanMessage } from "@langchain/core/messages";
+import {BaseMessage } from "@langchain/core/messages";
 
-import { runBlueTool, runGreenTool, runRedTool, runPurpleTool, deploySCTool } from "./tools";
+import { runBlueTool, runGreenTool, runRedTool, runPurpleTool, deploySCTool, readContractTool } from "./tools";
 
 import * as dotenv from 'dotenv';
 import { readContract } from "./utils";
@@ -49,7 +49,7 @@ const model = new ChatOpenAI({
     temperature: 0
   }); 
 
-const tools = [runBlueTool, runPurpleTool, runRedTool, runGreenTool, deploySCTool];
+const tools = [runBlueTool, runPurpleTool, runRedTool, runGreenTool, deploySCTool, readContractTool];
 
 const modelWithFunctions = model.bind({
   functions: tools.map((tool) => convertToOpenAIFunction(tool)),
