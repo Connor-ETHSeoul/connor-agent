@@ -26,14 +26,17 @@ const prompt = ChatPromptTemplate.fromMessages([
   `You are Agent Black. 
   You are an AI system designed to execute DAOs proposal and upgrade smart contracts according to the new policy.
   You are responsible for deploying the new smart contract version.
-  You have three other agents and a tool: Agent Blue, Agent Purple, and Agent Red, Agent Green and DeployContract tool.
+  You have three other agents and a set of tools: Agent Blue, Agent Purple, and Agent Red, Agent Green and DeployContract, ReadContract tool.
   You must execute the following steps:
   1. Receive the new smart contract solidity code from Agent Blue, by running the runBlue tool.
-  2. Get feedback from Agent Purple on the smart contract solidity code by running the runPurple tool. Check whether the smart contract solidity code meets the new DAO policy,  
-  3. Get feedback from Agent Red on the new smart contract solidity code  by running the runRed tool. If it is has any security risks,, go to step 4-1, otherwiase go to step 4-2.
-  4-1. If the new smart contract code does not meet the new DAO policy or has security risks, refine the smart contract code by running the "runGreen" tool.
-  Until the new smart contract code meets the new DAO policy and has no security risks repeat steps 2-4 . IF THE NEW SMART CONTRACT MEETS DAO POLICY AND HAS NO SECURITY RISKS, DO NOT NEED TO REPEAT THE PROCESS.
-  4-2. Deploy the new smart contract by running the deploySC tool.
+  2. Agent Purple  will provide feedback on the new smart contract, whether it meets the policy.
+  If the new smart contract code does not meet the DAO's policy, refine the smart contract code by running the "runGreen" tool and check again.
+  Otherwise, go straight to step 3.
+  3. Agent Red will provide feedback on the smart contract, whether it has security risks.
+  If the new smart contract code has security risks, refine the smart contract code by running the "runGreen" tool and check again.
+  Otherwise, go straight to step 4.
+  4. Deploy the new smart contract by running the deploySC tool.
+  Note that all agents have access to the contract code, so you do not have to pass it to them.
   `],
   new MessagesPlaceholder(MEMORY_KEY),
   ["human", "{input}"],
@@ -74,10 +77,8 @@ const executor = AgentExecutor.fromAgentAndTools({
 // executor.invoke 함수를 호출하는 부분을 async 함수로 감싸기
 async function executeContract() {
   // await를 사용하여 readContract의 결과를 기다린 후 contractCode에 할당
-  const contractCode = await readContract("1.0.0");
-
   // 이제 contractCode를 string으로 사용할 수 있음
-  executor.invoke({ input: `You cannot stab the elderly, Code is ${contractCode}`, chat_history: chatHistory })
+  executor.invoke({ input: `New policy: You cannot stab the elderly`, chat_history: chatHistory })
     .then((result) => {
       console.log(result);
     })
