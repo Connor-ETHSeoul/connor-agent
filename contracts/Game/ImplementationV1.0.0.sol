@@ -7,9 +7,10 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 interface DataBase {
     enum CharacterType {
-        Monster1, //0
-        Monster2, //1
-        Elderly //2
+        Warrior, //0
+        Monster1, //1
+        Monster2, //2
+        Elderly //3
     }
 
     function getCharacter(
@@ -52,7 +53,7 @@ contract ImplementationV_1_0_0 is Initializable, UUPSUpgradeable, OwnableUpgrade
     function initialize() public initializer {
         __Ownable_init();
         __UUPSUpgradeable_init();
-        dataBaseAddress = 0xF46fD9b50Fb39499e199a897f0233369FF92b20c;
+        dataBaseAddress = 0x9d4DCD71f5917d12276c4F2E1e3A5AF735Daced6;
         dataBaseContract = DataBase(dataBaseAddress); 
     }
 

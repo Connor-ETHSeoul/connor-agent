@@ -3,7 +3,7 @@ import { ethers, upgrades } from "hardhat";
 
 async function deployProxy() {
     const ImplementationV1: ContractFactory = await ethers.getContractFactory(
-        "ImplementationV1"
+        "ImplementationV_1_0_0"
     );
     const proxy: Contract = await upgrades.deployProxy(ImplementationV1);
     await proxy.deployed();

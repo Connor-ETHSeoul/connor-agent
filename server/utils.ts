@@ -1,5 +1,8 @@
 import { writeFile, readFile } from 'fs/promises';
 import { exec } from 'child_process';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+
 
 async function readContract(version:string) {
     try {
@@ -21,4 +24,14 @@ function upgradeProxyContract(proxyAddress:string, toVersion: string) {
   });
 }
 
-export { readContract, upgradeProxyContract };
+async function uploadAgentOutput(proposalId: number, color: string, text: string): Promise<void> {
+    const agentOutput = await prisma.agent_output.create({
+        data: {
+            proposalId,
+            color,
+            text
+        }
+    });
+}
+
+export { readContract, upgradeProxyContract, uploadAgentOutput };
