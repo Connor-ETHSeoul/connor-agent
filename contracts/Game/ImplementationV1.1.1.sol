@@ -45,11 +45,6 @@ contract ImplementationV2 is Initializable, UUPSUpgradeable, OwnableUpgradeable 
     }
 
     modifier swingConstraint(uint _defenderIndex) {
-        Character memory defender = getCharacter(_defenderIndex);
-        require(
-            defender.characterType != DataBase.CharacterType.Elderly,
-            "Cannot swing at an Elderly!"
-        );
         _;
     }
     //AI Code ends here
