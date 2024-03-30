@@ -26,7 +26,7 @@ async function upgradeProxy(proxyContractAddress:string, upgradeToVersion: numbe
     );
 }
 
-const proxyAddress = process.env.PROXY_ADDRESS || "0x5Da0Ec77fD8Ed7959CCA53C72b442132995e3620";
+const proxyAddress = process.env.PROXY_ADDRESS || "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 const upgradeToVersion = parseInt(process.env.UPGRADE_TO_VERSION||"2",10);
 
 upgradeProxy(proxyAddress, upgradeToVersion)
