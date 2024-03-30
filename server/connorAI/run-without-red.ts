@@ -85,7 +85,7 @@ async function executeContract() {
       data: {
           proposalId: 0,
           color: "black",
-          text: result.content
+          text: result.output
       }
     });
   } catch (error) {

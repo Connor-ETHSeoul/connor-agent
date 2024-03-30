@@ -86,10 +86,10 @@ async function executeContract() {
     // 다음 비동기 호출에서도 await를 사용하여 결과를 기다림
     await prisma.agent_output.create({
       data: {
-          proposalId: 0,
-          color: "black",
-          text: result.content
-      }
+        proposalId: 0,
+        color: "black",
+        text: result.output
+    }
     });
   } catch (error) {
     // 오류 처리

@@ -4,7 +4,7 @@ import * as path from 'path';
 
 async function readContract(version:string) {
     try {
-        const filePath = path.join(__dirname, '../', 'contracts', 'Game', `ImplementationV${version}.sol`);
+        const filePath = path.join(__dirname, '../../../', 'contracts', 'Game', `ImplementationV${version}.sol`);
         const data = await readFile(filePath, 'utf8');
         return data; // 데이터 반환
     } catch (error) {
@@ -15,7 +15,8 @@ async function readContract(version:string) {
 
 async function writeContract(version:string, code:string) {
     try {
-        const filePath = path.join(__dirname, '../', 'contracts', 'Game', `ImplementationV${version}.sol`);
+        const filePath = path.join(__dirname, '../../../', 'contracts', 'Game', `ImplementationV${version}.sol`);
+        console.log('Writing file to', filePath);
         await writeFile(filePath, code);
     }
     catch (error) {

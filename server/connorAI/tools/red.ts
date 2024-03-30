@@ -1,6 +1,6 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
-import {readContract} from '../../utils'
+import {readContract} from './utils'
 import {getCurrentVersion} from '../../version'
 import { PrismaClient } from '../../../prisma/generated/client';
 

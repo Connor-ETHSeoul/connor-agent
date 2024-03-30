@@ -1,7 +1,6 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
-import { writeFile } from 'fs/promises';
-import {readContract, writeContract} from '../../utils'
+import {readContract, writeContract} from './utils'
 import {getCurrentVersion, incrementMinorVersion} from '../../version'
 import { PrismaClient } from '../../../prisma/generated/client';
 const prisma = new PrismaClient();
@@ -80,9 +79,7 @@ async function runBlue(newPolicy: string): Promise<string> {
 
     incrementMinorVersion();
     const curvt = getCurrentVersion();
-    
-    const filePath = `../contracts/Game/ImplementationV${curvt}.sol`;
-    await writeFile(filePath, newSC);
+    await writeContract(curvt, newSC);
 
     await prisma.smart_contract.create({
       data: {
