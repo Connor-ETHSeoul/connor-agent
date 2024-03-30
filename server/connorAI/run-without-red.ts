@@ -77,9 +77,7 @@ async function executeContract() {
   try {
     // await를 사용하여 readContract의 결과를 기다린 후 contractCode에 할당
     // 예시에서는 executor.invoke가 비동기 호출을 나타내는 것으로 가정합니다.
-    const result = await executor.invoke({ input: `New policy: You cannot stab the elderly`, chat_history: chatHistory });
-    console.log(result);
-    
+    const result = await executor.invoke({ input: `New policy: You cannot stab the elderly`, chat_history: chatHistory });    
     // 다음 비동기 호출에서도 await를 사용하여 결과를 기다림
     await prisma.agent_output.create({
       data: {
