@@ -1,19 +1,21 @@
-import { ChatOpenAI } from "@langchain/openai";
-import { PromptTemplate } from "@langchain/core/prompts";
-import {readContract} from './utils'
-import {getCurrentVersion} from '../../version'
-import { PrismaClient } from '../../../prisma/generated/client';
+import { Anthropic } from "@anthropic-ai/sdk";
+import { readContract } from "./utils";
+import { getCurrentVersion } from "../../version";
+import { PrismaClient } from "../../../prisma/generated/client";
+
+require('dotenv').config({ path: "../../../.env" });
 
 
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '../.env' });
+const prisma = new PrismaClient();
+const CLAUDEAI_API_KEY = process.env.CLAUDEAI_API_KEY;
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const anthropic = new Anthropic({
+  apiKey: CLAUDEAI_API_KEY,
+});
 
-const prisma = new PrismaClient(); 
-
-const promptTemplate = PromptTemplate.fromTemplate(
-  `You should check whether the security issue exist in the solidity code. 
+function createPromptTemplate(modFile: string): string {
+  // Define the structure of your prompt
+  const template = `You should check whether the security issue exist in the solidity code. 
   Modified code is given, and you should check the security issue according to SCSVS (Smart Contract Security Verification Standard).
   1. Verify that the every introduced design change is preceded by an earlier threat modelling.
   2. Verify that the documentation clearly and precisely defines all trust boundaries in the contract.
@@ -27,53 +29,52 @@ const promptTemplate = PromptTemplate.fromTemplate(
   10. Verify that the business logic in contracts is consistent. Important changes in the logic should be allowed for all or none of the contracts.
   11. Verify that code analysis tools are in use that can detect potentially malicious code.
   12. Verify that the latest version of Solidity is used.
-  {code}
-  If there exists the error about the security, give the security issue feedback.`
-);
+  ${modFile}
+  If there exists the error about the security, give the security issue feedback.`;
 
-const model = new ChatOpenAI({
-  openAIApiKey: OPENAI_API_KEY,
-  modelName: "gpt-4", //use gpt-4 model
-  temperature: 0
-});
-
-const chain = promptTemplate.pipe(model);
-
-async function runRed(): Promise<string> {
-    try {
-        console.log("Agent Red is checking the contract for security risks \n")
-        
-        const currentVersion = getCurrentVersion();
-        const fileData = await readContract(currentVersion);
-      
-        const result = await chain.invoke({ code: fileData}); // 읽은 데이터를 사용
-        const feedback = result.content as string;
-
-        console.log("Agent Red's feedback on security: \n")
-        console.log(feedback + "\n");
-
-        await prisma.agent_output.create({
-            data: {
-                proposalId: 0,
-                color: "black",
-                text: "Agent Red is checking the contract for security risks... \n"
-            }
-        });
-
-        await prisma.agent_output.create({
-          data: {
-              proposalId: 0,
-              color: "red",
-              text: "Agent Red's feedback on security: \n" + feedback 
-          }
-      });
-        return feedback;
-
-    } catch (error) {
-        console.error("An error occurred:", error);
-        return "";
-    }
+  return template;
 }
 
+async function runRed(): Promise<string> {
+  try {
+    console.log("Agent Red is checking the contract for security risks \n");
 
-export { runRed }
+    const currenvt = getCurrentVersion();
+    const fileData = await readContract(currenvt);
+
+    const prompt = createPromptTemplate(fileData);
+
+    const result = await anthropic.messages.create({
+      model: "claude-3-opus-20240229",
+      max_tokens: 1024,
+      messages: [{ role: "user", content: prompt }],
+    });
+
+    const feedback = result["content"][0]["text"];
+    console.log("Agent Red's feedback on security: \n");
+    console.log(feedback + "\n");
+
+    await prisma.agent_output.create({
+      data: {
+        proposalId: 0,
+        color: "black",
+        text: "Agent Red is checking the contract for security risks... \n",
+      },
+    });
+
+    await prisma.agent_output.create({
+      data: {
+        proposalId: 0,
+        color: "red",
+        text: "Agent Red's feedback on security: \n" + feedback,
+      },
+    });
+
+    return feedback;
+  } catch (error) {
+    console.error("An error occured:", error);
+    return "";
+  }
+}
+
+export { runRed };
