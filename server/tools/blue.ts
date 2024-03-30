@@ -44,7 +44,7 @@ async function writeSC(newPolicy:string): Promise<string> {
         const newSC = result.content as string;
 
         console.log("Agent Blue's new smart contract code: \n")
-        console.log(newSC);
+        console.log(newSC + "\n");
 
         return newSC;
 
