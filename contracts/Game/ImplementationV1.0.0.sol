@@ -23,7 +23,7 @@ interface DataBase {
     ) external;
 }
 
-contract ImplementationV_1 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
+contract ImplementationV_1_0_0 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     address dataBaseAddress;
     DataBase dataBaseContract;
 
