@@ -10,8 +10,8 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 const promptTemplate = PromptTemplate.fromTemplate(
   `You will be given {policy}, and {code}. 
-  You check whether the policy aligns with the code.
-  Give the feedback about the policy aligns with the code or not.`
+  You check whether the policy aligns with the solidity code.
+  Give the feedback about the policy aligns with the solidity code or not.`
 );
 
 const model = new ChatOpenAI({
