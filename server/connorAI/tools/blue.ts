@@ -3,7 +3,7 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { writeFile } from 'fs/promises';
 import {readContract} from '../../utils'
 import {getCurrentVersion, incrementMinorVersion} from '../../version'
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../../prisma/generated/client';
 const prisma = new PrismaClient();
 
 import * as dotenv from 'dotenv';

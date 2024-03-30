@@ -7,9 +7,10 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 interface DataBase {
     enum CharacterType {
-        Monster1, //0
-        Monster2, //1
-        Elderly //2
+        Warrior, //0
+        Monster1, //1
+        Monster2, //2
+        Elderly //3
     }
 
     function getCharacter(

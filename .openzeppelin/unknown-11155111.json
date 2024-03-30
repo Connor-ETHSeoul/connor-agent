@@ -10,6 +10,11 @@
       "address": "0xfd9a4cc921F935b10b25A7A2C0711E24B22780B1",
       "txHash": "0xff8b98b8ef84c1dc983b89b46dec65313991891085e0ea3794ef1ba2cec58a1e",
       "kind": "uups"
+    },
+    {
+      "address": "0x338588a505a4ba141f1A156CA836df6C239C88d9",
+      "txHash": "0xdfdbd728a7ee560591cbd60ddb4463ae8b0b25f3dbb727f1dfebebda30300fda",
+      "kind": "uups"
     }
   ],
   "impls": {
@@ -223,6 +228,118 @@
             "numberOfBytes": "1"
           },
           "t_contract(DataBase)1326": {
+            "label": "contract DataBase",
+            "numberOfBytes": "20"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "9fd01c04b44dc3f6b7db81760f80a1833c6392129dcaa613035bb4bb0d95bb5e": {
+      "address": "0xdf7c5E1257C537F75b3642276b15406b9Ed2Ce4B",
+      "txHash": "0xde7ca6f3fd322a9c1e3e3f9634a5ea4a5b38ad0715af245ad48e2291acb49f76",
+      "layout": {
+        "solcVersion": "0.8.17",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC1967UpgradeUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol:169"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "UUPSUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol:111"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:40"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "dataBaseAddress",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_address",
+            "contract": "ImplementationV_1_0_0",
+            "src": "contracts/Game/ImplementationV1.0.0.sol:28"
+          },
+          {
+            "label": "dataBaseContract",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_contract(DataBase)1327",
+            "contract": "ImplementationV_1_0_0",
+            "src": "contracts/Game/ImplementationV1.0.0.sol:29"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(DataBase)1327": {
             "label": "contract DataBase",
             "numberOfBytes": "20"
           },

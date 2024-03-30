@@ -2,11 +2,15 @@ import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import {readContract} from '../../utils'
 import {getCurrentVersion} from '../../version'
+import { PrismaClient } from '../../../prisma/generated/client';
+
 
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+const prisma = new PrismaClient(); 
 
 const promptTemplate = PromptTemplate.fromTemplate(
   `You should check whether the security issue exist in the solidity code. 
@@ -47,6 +51,22 @@ async function runRed(): Promise<string> {
 
         console.log("Agent Red's feedback on security: \n")
         console.log(feedback + "\n");
+
+        await prisma.agent_output.create({
+            data: {
+                proposalId: 0,
+                color: "black",
+                text: "Agent Red is checking the contract for security risks... \n"
+            }
+        });
+
+        await prisma.agent_output.create({
+          data: {
+              proposalId: 0,
+              color: "red",
+              text: "Agent Red's feedback on security: \n" + feedback 
+          }
+      });
         return feedback;
 
     } catch (error) {

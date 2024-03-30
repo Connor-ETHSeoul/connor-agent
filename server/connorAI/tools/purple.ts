@@ -2,11 +2,12 @@ import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import {readContract} from '../../utils'
 import {getCurrentVersion} from '../../version'
+import { PrismaClient } from '../../../prisma/generated/client';
+
 
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
-import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
