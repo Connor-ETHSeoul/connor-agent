@@ -15,8 +15,8 @@ const promptTemplate = PromptTemplate.fromTemplate(
   The existing code is {originalFile}
 
   This is the requirement for new Solidity code: 
-  Change the name of contract function from ImplementationV_1_n_B ImplementationV_1_n+1_B to contract.
-  Only change the number part n, and B is the given original number.
+  Change the name of contract function from ImplementationV_1_n_X ImplementationV_1_n+1_X to contract.
+  Only change the number part n, and X is the given original number.
   Change the contract so that is meets the new {policy}.
   You can only change the part that starts with
   "//AI CODE STARTS HERE" and ends with "//AI CODE ENDS HERE".

@@ -17,8 +17,8 @@ const promptTemplate = PromptTemplate.fromTemplate(
     Change the contract so that according to the {feedback}.
     You can only change the part that starts with
     "//AI CODE STARTS HERE" and ends with "//AI CODE ENDS HERE".
-    Change the contract function name from Implementation_V_1_A_N to Implementation_V_1_A_N+1
-    Only change the value of N, increment 1, A is the given number, do not change the number
+    Change the contract function name from Implementation_V_1_X_N to Implementation_V_1_X_N+1
+    Only change the value of N, increment 1, X is the given number, do not change the number
     Please give me the full entire code.
   
     I need a straightforward Solidity code snippet that satisfies the requirements. 
