@@ -33,7 +33,7 @@ const prompt = ChatPromptTemplate.fromMessages([
   3. Get feedback from Agent Red on the  smart contract solidity code, if it is has any security risks, by running the runRed tool, go to step 4-1, otherwiase go to step 4-2.
   4-1. If the new smart contract code does not meet the new DAO policy or has security risks, refine the smart contract code by running the "runGreen" tool.
   Until the new smart contract code meets the new DAO policy and has no security risks repeat steps 2-4 . IF THE NEW SMART CONTRACT MEETS DAO POLICY AND HAS NO SECURITY RISKS, DO NOT NEED TO REPEAT THE PROCESS.
-  4-2. Deploy the new smart contract by running the deploySC tool.
+
   `],
   new MessagesPlaceholder(MEMORY_KEY),
   ["human", "{input}"],
