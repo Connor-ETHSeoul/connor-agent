@@ -13,7 +13,6 @@ import {BaseMessage } from "@langchain/core/messages";
 import { runBlueTool, runGreenTool, runRedTool, runPurpleTool, deploySCTool, readContractTool } from "./tools";
 
 import * as dotenv from 'dotenv';
-import { readContract } from "../utils";
 
 dotenv.config({ path: '../.env' });
 
@@ -32,10 +31,7 @@ const prompt = ChatPromptTemplate.fromMessages([
   2. Agent Purple  will provide feedback on the new smart contract, whether it meets the policy.
   If the new smart contract code does not meet the DAO's policy, refine the smart contract code by running the "runGreen" tool and check again.
   Otherwise, go straight to step 3.
-  3. Agent Red will provide feedback on the smart contract, whether it has security risks.
-  If the new smart contract code has security risks, refine the smart contract code by running the "runGreen" tool and check again.
-  Otherwise, go straight to step 4.
-  4. Deploy the new smart contract by running the deploySC tool.
+  3. Deploy the new smart contract by running the deploySC tool.
   Note that all agents have access to the contract code, so you do not have to pass it to them.
   `],
   new MessagesPlaceholder(MEMORY_KEY),
