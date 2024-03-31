@@ -6,9 +6,11 @@ import { ethers, upgrades } from "hardhat";
  */
 
 
-async function upgradeProxy(proxyContractAddress:string, upgradeToVersion: number) {
+async function upgradeProxy(proxyContractAddress:string, upgradeToVersion: string) {
+    const version = formatVersion(upgradeToVersion);
+    console.log(version)
     const upgradedContract: ContractFactory = await ethers.getContractFactory(
-        `ImplementationV${upgradeToVersion}`
+        `ImplementationV_${version}`
     );
     const upgradedProxy: Contract = await upgrades.upgradeProxy(
         proxyContractAddress,
@@ -26,8 +28,11 @@ async function upgradeProxy(proxyContractAddress:string, upgradeToVersion: numbe
     );
 }
 
-const proxyAddress = process.env.PROXY_ADDRESS || "0xdf9bf7F4Be89647c60Ac8BbAac834285Bf76DC6f";
-const upgradeToVersion = parseInt(process.env.UPGRADE_TO_VERSION||"2",10);
+function formatVersion(version: string): string {
+    return version.replace(/\./g, '_');
+}
+const proxyAddress = process.env.PROXY_ADDRESS || "0xA2335efac69836724b1d3068506B8Ad1dB558227";
+const upgradeToVersion = process.env.UPGRADE_TO_VERSION||"1.0.1";
 
 upgradeProxy(proxyAddress, upgradeToVersion)
     .then(() => process.exit(0))

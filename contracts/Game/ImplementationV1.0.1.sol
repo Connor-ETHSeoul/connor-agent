@@ -24,7 +24,7 @@ interface DataBase {
     ) external;
 }
 
-contract ImplementationV_1_0_0 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
+contract ImplementationV_1_0_1 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     address dataBaseAddress;
     DataBase dataBaseContract;
 
@@ -46,6 +46,11 @@ contract ImplementationV_1_0_0 is Initializable, UUPSUpgradeable, OwnableUpgrade
     }
 
     modifier swingConstraint(uint _defenderIndex) {
+        Character memory defender = getCharacter(_defenderIndex);
+        require(
+            defender.characterType != DataBase.CharacterType.Elderly,
+            "Cannot Swing a Elderly!"
+        );
         _;
     }
     //AI Code ends here
