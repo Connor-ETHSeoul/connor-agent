@@ -1,9 +1,10 @@
 {
-    "compilerOptions": {
-      "baseUrl": ".", // 현재 디렉토리를 기준 경로로 설정
-      "paths": {
-        "@@/*": ["./contracts/*"] // '@' 접두사를 사용하여 src 디렉토리를 절대 경로로 지정
-      }
-    }
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
   }
-  
+}
